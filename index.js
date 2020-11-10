@@ -18,6 +18,7 @@ db.once('open', ()=>{
 // express configs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'))
+app.use(express.urlencoded({extended: true}))
 // routes
 app.get('/', (req, res) => {
     res.render('home')
@@ -27,10 +28,20 @@ app.get('/campgrounds', async(req, res) => {
     res.render('campgrounds/index', {campgrounds})
 })
 
+app.get('/campgrounds/new', (req, res) => {
+    res.render('campgrounds/new')
+})
+
 app.get('/campgrounds/:id', async(req,res) =>{
     const campground = await Campground.findById(req.params.id);
     res.render('campgrounds/show', {campground})
 })
+
+app.post('/campgrounds', async(req, res) => {
+    const campground = await Campground.create(req.body.campground);
+    res.redirect(`/campgrounds/${campground._id}`)
+})
+
 // create listener
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
