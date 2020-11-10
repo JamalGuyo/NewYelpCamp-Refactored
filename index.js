@@ -22,10 +22,9 @@ app.set('views', path.join(__dirname, '/views'))
 app.get('/', (req, res) => {
     res.render('home')
 })
-app.get('/makecamp', async(req, res) => {
-    const camp = new Campground({name:'backyard camp', description: 'cheap camping'});
-    await camp.save();
-    res.send(camp) 
+app.get('/campgrounds', async(req, res) => {
+    const campgrounds = await Campground.find({});
+    res.render('campgrounds/index', {campgrounds})
 })
 // create listener
 const PORT = process.env.PORT || 8080;
