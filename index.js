@@ -1,6 +1,7 @@
 const express = require('express'),
 app = express(),
 path = require('path'),
+ejsMate = require('ejs-mate'),
 methodOverride = require('method-override'),
 mongoose = require('mongoose'),
 Campground = require('./models/campground');
@@ -17,6 +18,7 @@ db.once('open', ()=>{
     console.log('Database connected')
 });
 // express configs
+app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'))
 app.use(express.urlencoded({extended: true}))
