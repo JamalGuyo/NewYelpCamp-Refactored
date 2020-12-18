@@ -7,6 +7,8 @@ mongoose = require('mongoose'),
 Campground = require('./models/campground');
 // import catchAsync
 const catchAsync = require('./utils/catchAsync');
+// import expressError class
+const ExpressError = require('./utils/ExpressError');
 // connect to db
 mongoose.connect('mongodb://localhost:27017/yelp-camp',{
     useNewUrlParser: true,
@@ -44,6 +46,7 @@ app.get('/campgrounds/:id',catchAsync(async(req,res) =>{
 }))
 
 app.post('/campgrounds', catchAsync(async(req, res) => {
+    if(!req.body.campground) throw new ExpressError('invalid campground data!', 400)
     const campground = await Campground.create(req.body.campground);
     res.redirect(`/campgrounds/${campground._id}`)
 }))
@@ -62,9 +65,15 @@ app.delete('/campgrounds/:id',catchAsync(async(req, res) => {
     await Campground.findByIdAndDelete(req.params.id);
     res.redirect('/campgrounds')
 }))
+// create 404 error handler
+app.all('*', (req, res,next) => {
+    next(new ExpressError('Page Not Found!', 404))
+})
 // handle errors using error middleware
 app.use((err, req, res, next) => {
-    res.send('Something went wrong')
+    const {statusCode = 500 } = err;
+    if(!err.message) err.message = 'Something went wrong';
+    res.status(statusCode).render('error', {err});
 })
 // create listener
 const PORT = process.env.PORT || 8080;
