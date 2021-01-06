@@ -4,8 +4,7 @@ const {Schema} = mongoose;
 const reviewSchema = new Schema({
     rating:{
         type: Number,
-        min: 0,
-        max: 5
+        required: true
     },
     body:{
         type: String,
