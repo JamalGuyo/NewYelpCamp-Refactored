@@ -5,6 +5,7 @@ ejsMate = require('ejs-mate'),
 methodOverride = require('method-override'),
 mongoose = require('mongoose'),
 session = require('express-session'),
+flash = require('connect-flash'),
 // routes
 campgroundRoutes = require('./routes/campgrounds'),
 reviewRoutes = require('./routes/reviews');
@@ -35,6 +36,13 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }))
+// flash
+app.use(flash());
+app.use((req,res,next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+})
 // routes
 app.get('/', (req, res) => {
     res.render('home')
