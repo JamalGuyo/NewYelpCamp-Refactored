@@ -4,6 +4,7 @@ path = require('path'),
 ejsMate = require('ejs-mate'),
 methodOverride = require('method-override'),
 mongoose = require('mongoose'),
+session = require('express-session'),
 // routes
 campgroundRoutes = require('./routes/campgrounds'),
 reviewRoutes = require('./routes/reviews');
@@ -23,7 +24,17 @@ app.set('views', path.join(__dirname, '/views'))
 app.use(express.urlencoded({extended: true}))
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
-
+// confidure express session
+app.use(session({
+    secret: 'thisshouldbeabettersecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie:{
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+}))
 // routes
 app.get('/', (req, res) => {
     res.render('home')
