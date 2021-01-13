@@ -1,5 +1,7 @@
 const express = require('express'),
     router = express.Router(),
+    // passport
+    passport = require('passport'),
     // model
     User = require('../models/user'),
     // error handlers
@@ -21,8 +23,9 @@ router.post('/register', catchAsync(async(req, res, next) => {
 router.get('/login', (req, res) => {
     res.render('users/login')
 })
-router.post('/login', (req, res) => {
-    res.send('login logic goes here')
+router.post('/login', passport.authenticate('local',{failureFlash: true, failureRedirect: '/login'}), (req, res) => {
+    req.flash('success', 'welcome back');
+    res.redirect('/campgrounds');
 })
 // 
 router.get('/logout', (req, res) => {
