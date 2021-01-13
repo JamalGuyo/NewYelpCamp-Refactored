@@ -2,7 +2,7 @@ const express = require('express'),
     router = express.Router();
 // 
 router.get('/register', (req, res) => {
-    res.send('register route works')
+    res.render('users/register')
 })
 router.post('/register', (req, res) => {
     res.send('register post route works')
