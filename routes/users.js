@@ -9,7 +9,7 @@ router.post('/register', (req, res) => {
 })
 //
 router.get('/login', (req, res) => {
-    res.send('login form goes here')
+    res.render('users/login')
 })
 router.post('/login', (req, res) => {
     res.send('login logic goes here')
