@@ -6,6 +6,8 @@ methodOverride = require('method-override'),
 mongoose = require('mongoose'),
 session = require('express-session'),
 flash = require('connect-flash'),
+// ExpresError
+ExpressError = require('./utils/ExpressError'),
 // model
 User = require('./models/user'),
 // auth
@@ -13,7 +15,8 @@ passport = require('passport'),
 LocalStrategy = require('passport-local'),
 // routes
 campgroundRoutes = require('./routes/campgrounds'),
-reviewRoutes = require('./routes/reviews');
+reviewRoutes = require('./routes/reviews'),
+userRoutes = require('./routes/users');
 // connect to db
 mongoose.connect('mongodb://localhost:27017/yelp-camp',{
     useNewUrlParser: true,
@@ -60,6 +63,8 @@ app.use((req,res,next) => {
 app.get('/', (req, res) => {
     res.render('home')
 })
+// user auth routes
+app.use('/', userRoutes);
 // campground routes
 app.use('/campgrounds/', campgroundRoutes);
 // review routes
