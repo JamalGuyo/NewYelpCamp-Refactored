@@ -6,6 +6,11 @@ methodOverride = require('method-override'),
 mongoose = require('mongoose'),
 session = require('express-session'),
 flash = require('connect-flash'),
+// model
+User = require('./models/user'),
+// auth
+passport = require('passport'),
+LocalStrategy = require('passport-local'),
 // routes
 campgroundRoutes = require('./routes/campgrounds'),
 reviewRoutes = require('./routes/reviews');
@@ -36,6 +41,14 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }))
+// setup passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 // flash
 app.use(flash());
 app.use((req,res,next) => {
