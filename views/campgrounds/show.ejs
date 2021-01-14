@@ -24,25 +24,27 @@
             </div>
         </div>
         <!-- reviews -->
-        <div class="card mb-3">
-            <div class="card-body">
-                <h2>Leave a Review</h2>
-                <form action="/campgrounds/<%=campground._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
-                    <div class="mb-3">
-                        <label class="form-label" for="rating">Rating</label>
-                        <input type="range" min="0" max="5" id="rating" name="review[rating]" class="form-range">
-                    </div>
-                    <div class="mb-3">
-                        <label for="review" class="form-label">Review</label>
-                        <textarea name="review[body]" id="review" cols="30" rows="10" class="form-control" required></textarea>
-                        <div class="valid-feedback">
-                            Looks good!
+        <% if(currentUser){ %>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h2>Leave a Review</h2>
+                    <form action="/campgrounds/<%=campground._id%>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+                        <div class="mb-3">
+                            <label class="form-label" for="rating">Rating</label>
+                            <input type="range" min="0" max="5" id="rating" name="review[rating]" class="form-range">
                         </div>
-                    </div>
-                    <button class="btn btn-primary">review</button>
-                </form>
+                        <div class="mb-3">
+                            <label for="review" class="form-label">Review</label>
+                            <textarea name="review[body]" id="review" cols="30" rows="10" class="form-control" required></textarea>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">review</button>
+                    </form>
+                </div>
             </div>
-        </div>
+        <% } %>
         <!-- reviews list -->
         <% for(let review of campground.reviews){ %>
             <div class="card mb-3">
