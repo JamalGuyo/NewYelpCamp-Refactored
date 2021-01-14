@@ -6,6 +6,7 @@
             <div class="card-body">
                 <h5 class="card-title"><%= campground.title %> </h5>
                 <p class="card-text"><%=campground.description %> </p>
+                <p class="card-text text-muted">submitted by <%= campground.author.username%></p>
                 <p class="text-muted"><%= campground.location %> </p>
                 <p class="text-muted">$<%= campground.price %>/night </p>                
             </div>
