@@ -10,13 +10,15 @@
                 <p class="text-muted"><%= campground.location %> </p>
                 <p class="text-muted">$<%= campground.price %>/night </p>                
             </div>
-            <div class="card-body">
-                <a class="card-link btn btn-info" href="/campgrounds/<%=campground._id%>/edit">Edit Campground</a>
-                <form class="d-inline" method="POST" action="/campgrounds/<%=campground._id%>?_method=DELETE">
-                    <button class="btn btn-danger">delete</button>
-                </form>
+            <% if( currentUser && campground.author.equals(currentUser._id)){ %>
+                <div class="card-body">
+                    <a class="card-link btn btn-info" href="/campgrounds/<%=campground._id%>/edit">Edit Campground</a>
+                    <form class="d-inline" method="POST" action="/campgrounds/<%=campground._id%>?_method=DELETE">
+                        <button class="btn btn-danger">delete</button>
+                    </form>
 
-            </div>
+                </div>
+            <% } %>
             <div class="card-footer text-muted">
                 2 days ago
             </div>
