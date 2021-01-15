@@ -8,18 +8,18 @@ const express = require('express'),
     {getCampgrounds, newCampground, getCampground, addCampground, editCampground, updateCampground, deleteCampground} = require('../controllers/campgrounds');
 
 // routes
-router.get('/', catchAsync(getCampgrounds));
+router.route('/')
+    .get(catchAsync(getCampgrounds))
+    .post(isLoggedIn, validateCampground, catchAsync(addCampground))
 
 router.get('/new', isLoggedIn, newCampground);
 
-router.get('/:id',catchAsync(getCampground));
-
-router.post('/',isLoggedIn, validateCampground, catchAsync(addCampground))
+router.route('/:id')
+    .get(catchAsync(getCampground))
+    .put(validateCampground,isLoggedIn, isAuthor, catchAsync(updateCampground))
+    .delete(isLoggedIn, isAuthor, catchAsync(deleteCampground))
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(editCampground))
 
-router.put('/:id',validateCampground,isLoggedIn, isAuthor, catchAsync(updateCampground))
-
-router.delete('/:id',isLoggedIn, isAuthor, catchAsync(deleteCampground))
 // export routes
 module.exports = router;

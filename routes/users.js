@@ -9,11 +9,14 @@ const express = require('express'),
     // controllers
     {addUser, registerUser, showLogin, loginUser, logoutUser} = require('../controllers/users');
 // 
-router.get('/register', addUser)
-router.post('/register', catchAsync(registerUser))
+
+router.route('/register')
+    .get(addUser)
+    .post(catchAsync(registerUser))
 //
-router.get('/login', showLogin)
-router.post('/login', passport.authenticate('local',{failureFlash: true, failureRedirect: '/login'}), loginUser)
+router.route('/login')
+    .get(showLogin)
+    .post(passport.authenticate('local',{failureFlash: true, failureRedirect: '/login'}), loginUser)
 // 
 router.get('/logout', logoutUser)
 // export router
